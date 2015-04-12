@@ -15,6 +15,9 @@
     self.label = [[UILabel alloc] init];
     [self.contentView addSubview:self.label];
     self.label.textAlignment = NSTextAlignmentCenter;
+    
+    self.imageView = [[UIImageView alloc] init];
+    [self.contentView addSubview:self.imageView];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -41,6 +44,7 @@
     [super layoutSubviews];
     
     self.label.frame = self.contentView.bounds;
+    self.imageView.frame = self.contentView.bounds;
 }
 
 @end

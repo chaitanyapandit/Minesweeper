@@ -13,12 +13,15 @@
 #define kGridCount 8.0f
 #define kInterSpacing 2.0f
 #define kEdgeSpacing 4.0f
+#define kMinesCount 10
 
 @interface BoardViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property UICollectionView *collectionView;
 @property UICollectionViewFlowLayout *collectionViewLayout;
 @property (nonatomic) NSMutableArray *localConstraints;
+@property NSArray *mineLocations;
+@property NSMutableDictionary *selectedPaths;
 
 @end
 
@@ -52,6 +55,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.mineLocations = [self getNRandomNumbers:kMinesCount lessThan:kGridCount*kGridCount];
+    self.selectedPaths = [[NSMutableDictionary alloc] init];
+    
     self.collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.collectionViewLayout];
     self.collectionView.collectionViewLayout = self.collectionViewLayout;
@@ -63,6 +69,7 @@
     [self.collectionView registerClass:[BoardCell class] forCellWithReuseIdentifier:kCellIdentifier];
     
     [self setupConstraints];
+    
 }
 
 #pragma mark UICollectionView Datasource
@@ -77,62 +84,36 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BoardCell *cell = (BoardCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor greenColor];
-    cell.label.text = [NSString stringWithFormat:@"%ld", indexPath.row];
-    
+    if ([self.mineLocations containsObject:[NSNumber numberWithInteger:indexPath.row]])
+        cell.backgroundColor = [UIColor redColor];
+    else
+        cell.backgroundColor = [UIColor greenColor];
+
     return cell;
 }
 
 #pragma mark UICollectionView Delegate
 
-- (NSArray *)adjescentCellsInSameLineForCellAtIndex:(NSInteger)index {
-    NSMutableArray *retVal = [[NSMutableArray alloc] init];
-    BoardCell *cell = nil;
-    
-    NSInteger row = floor(index/kGridCount);
-    NSInteger rowMin = floor((kGridCount * row));
-    NSInteger rowMax = rowMin + kGridCount -1;
-
-    // This
-    NSInteger currentIndex = index;
-    cell = (currentIndex >= rowMin && currentIndex <= rowMax) ? (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]] : nil;
-    if (cell)
-        [retVal addObject:cell];
-    // Previous
-    currentIndex = index-1;
-    cell = (currentIndex >= rowMin && currentIndex <= rowMax) ? (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]] : nil;
-    if (cell)
-        [retVal addObject:cell];
-    // Next
-    currentIndex = index+1;
-    cell = (currentIndex >= rowMin && currentIndex <= rowMax) ? (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]] : nil;
-    if (cell)
-        [retVal addObject:cell];
-
-    return retVal;
-}
-
-- (NSArray *)adjescentCellsForCellAtIndexIndex:(NSInteger)index {
-
-    NSMutableArray *retVal = [[NSMutableArray alloc] init];
-    
-    // This
-    [retVal addObjectsFromArray:[self adjescentCellsInSameLineForCellAtIndex:index]];
-    // Top
-    [retVal addObjectsFromArray:[self adjescentCellsInSameLineForCellAtIndex:index-kGridCount]];
-    // Bottom
-    [retVal addObjectsFromArray:[self adjescentCellsInSameLineForCellAtIndex:index+kGridCount]];
-    
-    return retVal;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSArray *cells = [self adjescentCellsForCellAtIndexIndex:indexPath.row];
-    for (BoardCell *cell in cells)
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger adjescentCount = 0;
+    NSArray *indices = [self adjescentIndicesAtIndex:indexPath.row];
+    for (NSNumber *index in indices)
     {
-        cell.backgroundColor = [UIColor yellowColor];
+        if ([self.mineLocations containsObject:index])
+            adjescentCount ++;
     }
+    BoardCell *cell = (BoardCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.label.text = [NSString stringWithFormat:@"%ld", (long)adjescentCount];
+    
+    [self.selectedPaths setObject:[NSNumber numberWithInteger:adjescentCount] forKey:[NSNumber numberWithInteger:indexPath.row]];
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+   
+    if ([self.selectedPaths.allKeys containsObject:[NSNumber numberWithInteger:indexPath.row]])
+        return  NO;
+    else
+        return YES;
 }
 
 #pragma mark UICollectionView UICollectionViewDelegateFlowLayout
@@ -157,6 +138,62 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return kInterSpacing;
+}
+
+#pragma mark Helpers
+
+-(NSMutableArray *)getNRandomNumbers:(NSInteger)n lessThan:(int)Max {
+    NSMutableArray *uniques = [[NSMutableArray alloc] init];
+    int r;
+    while ([uniques count] < n) {
+        r = arc4random() % Max;
+        if (![uniques containsObject:[NSNumber numberWithInt:r]]) {
+            [uniques addObject:[NSNumber numberWithInt:r]];
+        }
+    }
+    return uniques;
+}
+
+
+- (NSArray *)adjescentIndicesInSameAtIndex:(NSInteger)index {
+    NSMutableArray *retVal = [[NSMutableArray alloc] init];
+    BoardCell *cell = nil;
+    
+    NSInteger row = floor(index/kGridCount);
+    NSInteger rowMin = floor((kGridCount * row));
+    NSInteger rowMax = rowMin + kGridCount -1;
+    
+    // This
+    NSInteger currentIndex = index;
+    cell = (currentIndex >= rowMin && currentIndex <= rowMax) ? (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]] : nil;
+    if (cell)
+        [retVal addObject:[NSNumber numberWithInteger:currentIndex]];
+    // Previous
+    currentIndex = index-1;
+    cell = (currentIndex >= rowMin && currentIndex <= rowMax) ? (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]] : nil;
+    if (cell)
+        [retVal addObject:[NSNumber numberWithInteger:currentIndex]];
+    // Next
+    currentIndex = index+1;
+    cell = (currentIndex >= rowMin && currentIndex <= rowMax) ? (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]] : nil;
+    if (cell)
+        [retVal addObject:[NSNumber numberWithInteger:currentIndex]];
+    
+    return retVal;
+}
+
+- (NSArray *)adjescentIndicesAtIndex:(NSInteger)index {
+    
+    NSMutableArray *retVal = [[NSMutableArray alloc] init];
+    
+    // This
+    [retVal addObjectsFromArray:[self adjescentIndicesInSameAtIndex:index]];
+    // Top
+    [retVal addObjectsFromArray:[self adjescentIndicesInSameAtIndex:index-kGridCount]];
+    // Bottom
+    [retVal addObjectsFromArray:[self adjescentIndicesInSameAtIndex:index+kGridCount]];
+    
+    return retVal;
 }
 
 @end

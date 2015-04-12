@@ -11,5 +11,6 @@
 @interface BoardCell : UICollectionViewCell
 
 @property UILabel *label;
+@property UIImageView *imageView;
 
 @end
