@@ -13,7 +13,7 @@
 		54CA0F1E1ADA4D6500A5C77D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54CA0F1C1ADA4D6500A5C77D /* LaunchScreen.xib */; };
 		54CA0F2A1ADA4D6500A5C77D /* MinesweeperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F291ADA4D6500A5C77D /* MinesweeperTests.m */; };
 		54CA0F3D1ADA537D00A5C77D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F361ADA537D00A5C77D /* AppDelegate.m */; };
-		54CA0F3E1ADA537D00A5C77D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F391ADA537D00A5C77D /* ViewController.m */; };
+		54CA0F3E1ADA537D00A5C77D /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F391ADA537D00A5C77D /* BoardViewController.m */; };
 		54CA0F3F1ADA537D00A5C77D /* Minesweeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F3B1ADA537D00A5C77D /* Minesweeper.xcdatamodeld */; };
 		BC0EC20DFCC6B173A643E103 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 854100385A026C672CAEB435 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -41,8 +41,8 @@
 		54CA0F291ADA4D6500A5C77D /* MinesweeperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MinesweeperTests.m; sourceTree = "<group>"; };
 		54CA0F351ADA537D00A5C77D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		54CA0F361ADA537D00A5C77D /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		54CA0F381ADA537D00A5C77D /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		54CA0F391ADA537D00A5C77D /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		54CA0F381ADA537D00A5C77D /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
+		54CA0F391ADA537D00A5C77D /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
 		54CA0F3C1ADA537D00A5C77D /* Minesweeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Minesweeper.xcdatamodel; sourceTree = "<group>"; };
 		854100385A026C672CAEB435 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E42CD15ED8B13E85E2433EE1 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -147,8 +147,8 @@
 		54CA0F371ADA537D00A5C77D /* Board */ = {
 			isa = PBXGroup;
 			children = (
-				54CA0F381ADA537D00A5C77D /* ViewController.h */,
-				54CA0F391ADA537D00A5C77D /* ViewController.m */,
+				54CA0F381ADA537D00A5C77D /* BoardViewController.h */,
+				54CA0F391ADA537D00A5C77D /* BoardViewController.m */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -314,7 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54CA0F3F1ADA537D00A5C77D /* Minesweeper.xcdatamodeld in Sources */,
-				54CA0F3E1ADA537D00A5C77D /* ViewController.m in Sources */,
+				54CA0F3E1ADA537D00A5C77D /* BoardViewController.m in Sources */,
 				54CA0F3D1ADA537D00A5C77D /* AppDelegate.m in Sources */,
 				54CA0F0D1ADA4D6500A5C77D /* main.m in Sources */,
 			);
