@@ -16,6 +16,8 @@
 		54CA0F3E1ADA537D00A5C77D /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F391ADA537D00A5C77D /* BoardViewController.m */; };
 		54CA0F3F1ADA537D00A5C77D /* Minesweeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F3B1ADA537D00A5C77D /* Minesweeper.xcdatamodeld */; };
 		54CA0F421ADA574000A5C77D /* BoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F411ADA574000A5C77D /* BoardCell.m */; };
+		54CA0F4C1ADA985900A5C77D /* BoardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F4B1ADA985900A5C77D /* BoardModel.m */; };
+		54CA0F4F1ADA9E9700A5C77D /* BoardModel+Logic.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F4E1ADA9E9700A5C77D /* BoardModel+Logic.m */; };
 		BC0EC20DFCC6B173A643E103 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 854100385A026C672CAEB435 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +49,10 @@
 		54CA0F3C1ADA537D00A5C77D /* Minesweeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Minesweeper.xcdatamodel; sourceTree = "<group>"; };
 		54CA0F401ADA574000A5C77D /* BoardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardCell.h; sourceTree = "<group>"; };
 		54CA0F411ADA574000A5C77D /* BoardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardCell.m; sourceTree = "<group>"; };
+		54CA0F4A1ADA985900A5C77D /* BoardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardModel.h; sourceTree = "<group>"; };
+		54CA0F4B1ADA985900A5C77D /* BoardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardModel.m; sourceTree = "<group>"; };
+		54CA0F4D1ADA9E9700A5C77D /* BoardModel+Logic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BoardModel+Logic.h"; sourceTree = "<group>"; };
+		54CA0F4E1ADA9E9700A5C77D /* BoardModel+Logic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardModel+Logic.m"; sourceTree = "<group>"; };
 		854100385A026C672CAEB435 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E42CD15ED8B13E85E2433EE1 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,6 +137,7 @@
 		54CA0F331ADA537D00A5C77D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				54CA0F431ADA97B500A5C77D /* Model */,
 				54CA0F341ADA537D00A5C77D /* Application */,
 				54CA0F371ADA537D00A5C77D /* Board */,
 				54CA0F3A1ADA537D00A5C77D /* Core Data */,
@@ -164,6 +171,17 @@
 				54CA0F3B1ADA537D00A5C77D /* Minesweeper.xcdatamodeld */,
 			);
 			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		54CA0F431ADA97B500A5C77D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				54CA0F4A1ADA985900A5C77D /* BoardModel.h */,
+				54CA0F4B1ADA985900A5C77D /* BoardModel.m */,
+				54CA0F4D1ADA9E9700A5C77D /* BoardModel+Logic.h */,
+				54CA0F4E1ADA9E9700A5C77D /* BoardModel+Logic.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		61F5D86969115AB5190E3AC8 /* Pods */ = {
@@ -322,6 +340,8 @@
 				54CA0F3E1ADA537D00A5C77D /* BoardViewController.m in Sources */,
 				54CA0F3D1ADA537D00A5C77D /* AppDelegate.m in Sources */,
 				54CA0F0D1ADA4D6500A5C77D /* main.m in Sources */,
+				54CA0F4C1ADA985900A5C77D /* BoardModel.m in Sources */,
+				54CA0F4F1ADA9E9700A5C77D /* BoardModel+Logic.m in Sources */,
 				54CA0F421ADA574000A5C77D /* BoardCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
