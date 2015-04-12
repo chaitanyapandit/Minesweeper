@@ -15,6 +15,10 @@
     
     if ([self.mineLocations containsObject:[NSNumber numberWithInteger:index]])
     {
+        self.ended = @YES;
+        [self.selectedBlocks setObject:@0 forKey:[NSNumber numberWithInteger:index]];
+        if (reloadBlock)
+            reloadBlock();
         if (gameEndBlock)
             gameEndBlock(YES);
     }
@@ -56,6 +60,15 @@
 
 - (NSInteger)adjescentMinesCountForBlockAtIndex:(NSInteger)index {
     return [[self.selectedBlocks objectForKey:[NSNumber numberWithInteger:index]] integerValue];
+}
+
+- (void)restart {
+    self.ended = @NO;
+    self.indicesToSelect = [NSMutableArray array];
+    self.selectedBlocks = [NSMutableDictionary dictionary];
+    self.mineLocations = [self.class getNRandomNumbers:self.level.integerValue lessThan:self.gridSize.floatValue*self.gridSize.floatValue];
+    if (reloadBlock)
+        reloadBlock();
 }
 
 #pragma mark Helpers
@@ -112,6 +125,19 @@
     
     return adjescentCount;
 }
+
++ (NSMutableArray *)getNRandomNumbers:(NSInteger)n lessThan:(int)Max {
+    NSMutableArray *uniques = [[NSMutableArray alloc] init];
+    int r;
+    while ([uniques count] < n) {
+        r = arc4random() % Max;
+        if (![uniques containsObject:[NSNumber numberWithInt:r]]) {
+            [uniques addObject:[NSNumber numberWithInt:r]];
+        }
+    }
+    return uniques;
+}
+
 
 - (NSError *)saveAtURL:(NSURL *)URL {
     

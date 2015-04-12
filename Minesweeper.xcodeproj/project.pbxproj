@@ -18,6 +18,7 @@
 		54CA0F421ADA574000A5C77D /* BoardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F411ADA574000A5C77D /* BoardCell.m */; };
 		54CA0F4C1ADA985900A5C77D /* BoardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F4B1ADA985900A5C77D /* BoardModel.m */; };
 		54CA0F4F1ADA9E9700A5C77D /* BoardModel+Logic.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CA0F4E1ADA9E9700A5C77D /* BoardModel+Logic.m */; };
+		54CA0F521ADAD3B100A5C77D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 54CA0F541ADAD3B100A5C77D /* Localizable.strings */; };
 		BC0EC20DFCC6B173A643E103 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 854100385A026C672CAEB435 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,7 @@
 		54CA0F4B1ADA985900A5C77D /* BoardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardModel.m; sourceTree = "<group>"; };
 		54CA0F4D1ADA9E9700A5C77D /* BoardModel+Logic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BoardModel+Logic.h"; sourceTree = "<group>"; };
 		54CA0F4E1ADA9E9700A5C77D /* BoardModel+Logic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BoardModel+Logic.m"; sourceTree = "<group>"; };
+		54CA0F531ADAD3B100A5C77D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		854100385A026C672CAEB435 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E42CD15ED8B13E85E2433EE1 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 				54CA0F1C1ADA4D6500A5C77D /* LaunchScreen.xib */,
 				54CA0F0B1ADA4D6500A5C77D /* Info.plist */,
 				54CA0F0C1ADA4D6500A5C77D /* main.m */,
+				54CA0F541ADAD3B100A5C77D /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54CA0F191ADA4D6500A5C77D /* Main.storyboard in Resources */,
+				54CA0F521ADAD3B100A5C77D /* Localizable.strings in Resources */,
 				54CA0F1E1ADA4D6500A5C77D /* LaunchScreen.xib in Resources */,
 				54CA0F1B1ADA4D6500A5C77D /* Images.xcassets in Resources */,
 			);
@@ -379,6 +383,14 @@
 				54CA0F1D1ADA4D6500A5C77D /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		54CA0F541ADAD3B100A5C77D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				54CA0F531ADAD3B100A5C77D /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
