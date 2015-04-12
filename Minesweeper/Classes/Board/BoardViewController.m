@@ -90,7 +90,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat width = 320.0f; // Total width/height available
+    CGFloat width = collectionView.bounds.size.width; // Total width/height available
     width -= (kEdgeSpacing * 2.0f); // Minus size taken by edge spacings on both sides
     width -= (kGridCount -1)*kInterSpacing; // Minus the total size taken by separators
     CGFloat sz = width/kGridCount; // Size available for each individual cell
