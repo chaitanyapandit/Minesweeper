@@ -12,3 +12,4 @@ $ pod setup
 - Difficulty level can be set using the `level` property of `BoardModel`
 - Tap the Cheat button to reveal hidden mines
 - Supports iPhone and iPad in Landscape and Portrait orientations
+- Supports Saving/Loading of game (Automatically saves on tapping a block)
