@@ -11,4 +11,4 @@ $ pod setup
 - You can change the grid size by changing the `gridSize` property of `BoardModel`
 - Difficulty level can be set using the `level` property of `BoardModel`
 - Tap the Cheat button to reveal hidden mines
-- Supports iPhone and iPad, uses Autolayout
+- Supports iPhone and iPad in Landscape and Portrait orientations
