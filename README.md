@@ -1,4 +1,4 @@
-w# Minesweeper
+Minesweeper
 Minesweeper iOS
 
 ## Installation ##
