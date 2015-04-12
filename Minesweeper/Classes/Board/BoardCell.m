@@ -10,4 +10,37 @@
 
 @implementation BoardCell
 
+- (void)initialize {
+    
+    self.label = [[UILabel alloc] init];
+    [self.contentView addSubview:self.label];
+    self.label.textAlignment = NSTextAlignmentCenter;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        
+        [self initialize];
+    }
+    
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        
+        [self initialize];
+    }
+    
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.label.frame = self.contentView.bounds;
+}
+
 @end

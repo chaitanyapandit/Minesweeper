@@ -78,7 +78,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BoardCell *cell = (BoardCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
     cell.backgroundColor = [UIColor greenColor];
-
+    cell.label.text = [NSString stringWithFormat:@"%ld", indexPath.row+1];
+    
     return cell;
 }
 

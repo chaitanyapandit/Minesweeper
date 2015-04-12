@@ -10,4 +10,6 @@
 
 @interface BoardCell : UICollectionViewCell
 
+@property UILabel *label;
+
 @end
