@@ -22,6 +22,7 @@
 @property (nonatomic) NSMutableArray *localConstraints;
 @property NSArray *mineLocations;
 @property NSMutableDictionary *selectedPaths;
+@property NSMutableArray *adjescentIndicesToSelect;
 
 @end
 
@@ -89,23 +90,45 @@
     else
         cell.backgroundColor = [UIColor greenColor];
 
+    
+    NSNumber *count = [self.selectedPaths objectForKey:[NSNumber numberWithInteger:indexPath.row]];
+    if (count)
+    {
+        cell.backgroundColor = [UIColor yellowColor];
+        if (count.integerValue)
+            cell.label.text = [count stringValue];
+    }
+    
+    cell.label.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+
     return cell;
 }
 
 #pragma mark UICollectionView Delegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger adjescentCount = 0;
-    NSArray *indices = [self adjescentIndicesAtIndex:indexPath.row];
-    for (NSNumber *index in indices)
-    {
-        if ([self.mineLocations containsObject:index])
-            adjescentCount ++;
-    }
-    BoardCell *cell = (BoardCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    cell.label.text = [NSString stringWithFormat:@"%ld", (long)adjescentCount];
+    NSInteger adjescentCount = [self countOfMinesAdjescentToIndex:indexPath.row];
     
+    NSLog(@"%@", [NSString stringWithFormat:@"adjescentCount for index %ld is %ld", (long)indexPath.row, (long)adjescentCount]);
+
     [self.selectedPaths setObject:[NSNumber numberWithInteger:adjescentCount] forKey:[NSNumber numberWithInteger:indexPath.row]];
+    [self.collectionView reloadData];
+    [self.adjescentIndicesToSelect removeObjectsInArray:self.selectedPaths.allKeys];
+
+    if (!adjescentCount)
+    {
+        if (!self.adjescentIndicesToSelect)
+            self.adjescentIndicesToSelect = [[NSMutableArray alloc] init];
+        NSArray *adjescentIndices = [self adjescentIndicesAtIndex:indexPath.row];
+        [self.adjescentIndicesToSelect removeObjectsInArray:adjescentIndices];
+        [self.adjescentIndicesToSelect addObjectsFromArray:adjescentIndices];
+        [self.adjescentIndicesToSelect removeObjectsInArray:self.selectedPaths.allKeys];
+    }
+    
+    if (self.adjescentIndicesToSelect.count)
+    {
+        [self collectionView:collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForRow:[self.adjescentIndicesToSelect.firstObject integerValue] inSection:indexPath.section]];
+    }
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -157,7 +180,9 @@
 
 - (NSArray *)adjescentIndicesInSameAtIndex:(NSInteger)index {
     NSMutableArray *retVal = [[NSMutableArray alloc] init];
-    BoardCell *cell = nil;
+    
+    if (index <0 || index >= (kGridCount * kGridCount))
+        return retVal;
     
     NSInteger row = floor(index/kGridCount);
     NSInteger rowMin = floor((kGridCount * row));
@@ -165,18 +190,13 @@
     
     // This
     NSInteger currentIndex = index;
-    cell = (currentIndex >= rowMin && currentIndex <= rowMax) ? (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]] : nil;
-    if (cell)
+    if (currentIndex >= rowMin && currentIndex <= rowMax)
         [retVal addObject:[NSNumber numberWithInteger:currentIndex]];
-    // Previous
     currentIndex = index-1;
-    cell = (currentIndex >= rowMin && currentIndex <= rowMax) ? (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]] : nil;
-    if (cell)
+    if (currentIndex >= rowMin && currentIndex <= rowMax)
         [retVal addObject:[NSNumber numberWithInteger:currentIndex]];
-    // Next
     currentIndex = index+1;
-    cell = (currentIndex >= rowMin && currentIndex <= rowMax) ? (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0]] : nil;
-    if (cell)
+    if (currentIndex >= rowMin && currentIndex <= rowMax)
         [retVal addObject:[NSNumber numberWithInteger:currentIndex]];
     
     return retVal;
@@ -193,7 +213,22 @@
     // Bottom
     [retVal addObjectsFromArray:[self adjescentIndicesInSameAtIndex:index+kGridCount]];
     
+    [retVal removeObject:[NSNumber numberWithInteger:index]];
+    
     return retVal;
+}
+
+- (NSInteger)countOfMinesAdjescentToIndex:(NSInteger)index {
+    
+    NSInteger adjescentCount= 0;
+    NSArray *indices = [self adjescentIndicesAtIndex:index];
+    for (NSNumber *i in indices)
+    {
+        if ([self.mineLocations containsObject:i])
+            adjescentCount ++;
+    }
+    
+    return adjescentCount;
 }
 
 @end
