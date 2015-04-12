@@ -7,6 +7,7 @@
 //
 
 #import "BoardModel+Logic.h"
+#import <Mantle/MTLJSONAdapter.h>
 
 @implementation BoardModel (Logic)
 
@@ -14,8 +15,8 @@
     
     if ([self.mineLocations containsObject:[NSNumber numberWithInteger:index]])
     {
-        if (self.gameEndBlock)
-            self.gameEndBlock(YES);
+        if (gameEndBlock)
+            gameEndBlock(YES);
     }
     else
     {
@@ -39,8 +40,8 @@
         }
         else
         {
-            if (self.reloadBlock)
-                self.reloadBlock();
+            if (reloadBlock)
+                reloadBlock();
         }
     }
 }
@@ -62,12 +63,12 @@
 - (NSArray *)adjescentIndicesInSameAtIndex:(NSInteger)index {
     NSMutableArray *retVal = [[NSMutableArray alloc] init];
     
-    if (index <0 || index >= (self.gridSize * self.gridSize))
+    if (index <0 || index >= (self.gridSize.floatValue * self.gridSize.floatValue))
         return retVal;
     
-    NSInteger row = floor(index/self.gridSize);
-    NSInteger rowMin = floor((self.gridSize * row));
-    NSInteger rowMax = rowMin + self.gridSize -1;
+    NSInteger row = floor(index/self.gridSize.floatValue);
+    NSInteger rowMin = floor((self.gridSize.floatValue * row));
+    NSInteger rowMax = rowMin + self.gridSize.floatValue -1;
     
     // This
     NSInteger currentIndex = index;
@@ -90,9 +91,9 @@
     // This
     [retVal addObjectsFromArray:[self adjescentIndicesInSameAtIndex:index]];
     // Top
-    [retVal addObjectsFromArray:[self adjescentIndicesInSameAtIndex:index-self.gridSize]];
+    [retVal addObjectsFromArray:[self adjescentIndicesInSameAtIndex:index-self.gridSize.floatValue]];
     // Bottom
-    [retVal addObjectsFromArray:[self adjescentIndicesInSameAtIndex:index+self.gridSize]];
+    [retVal addObjectsFromArray:[self adjescentIndicesInSameAtIndex:index+self.gridSize.floatValue]];
     
     [retVal removeObject:[NSNumber numberWithInteger:index]];
     
@@ -110,6 +111,13 @@
     }
     
     return adjescentCount;
+}
+
+- (NSError *)saveAtURL:(NSURL *)URL {
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
+    [data writeToURL:URL atomically:YES];
+    return nil;
 }
 
 @end

@@ -54,9 +54,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // Initialize the model
-    self.model = [[BoardModel alloc] initWithComplexityLevel:TComplexityLevel_Intermediate];
-    self.model.cheatModeEnabled = YES;
+    // Check if we have a previous model saved
+    NSURL *modelURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
+    modelURL = [modelURL URLByAppendingPathComponent:@"Minesweeper.db"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:modelURL.path isDirectory:nil])
+    {
+        self.model = [NSKeyedUnarchiver unarchiveObjectWithFile:modelURL.path];
+    }
+    else
+    {
+        self.model = [[BoardModel alloc] initWithComplexityLevel:[NSNumber numberWithInteger:TComplexityLevel_Intermediate]];
+        self.model.cheatModeEnabled = @YES;
+    }
+    
     [self.model setGameEndBlock:^(BOOL mineStepped) {
         
     }];
@@ -64,6 +75,7 @@
     __weak __typeof(self) weakSelf = self;
     [self.model setReloadBlock:^{
         [weakSelf.collectionView reloadData];
+        [weakSelf.model saveAtURL:modelURL];
     }];
     
     // Setup collection view
@@ -86,14 +98,14 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.model.gridSize*self.model.gridSize;
+    return self.model.gridSize.floatValue*self.model.gridSize.floatValue;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BoardCell *cell = (BoardCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
     cell.label.text = nil;
 
-    if (self.model.cheatModeEnabled && [self.model minePresentAtIndex:indexPath.row])
+    if (self.model.cheatModeEnabled.boolValue && [self.model minePresentAtIndex:indexPath.row])
     {
         cell.backgroundColor = [UIColor redColor];
     }
@@ -131,8 +143,8 @@
     
     CGFloat width = collectionView.bounds.size.width; // Total width/height available
     width -= (kEdgeSpacing * 2.0f); // Minus size taken by edge spacings on both sides
-    width -= (self.model.gridSize -1)*kInterSpacing; // Minus the total size taken by separators
-    CGFloat sz = width/self.model.gridSize; // Size available for each individual cell
+    width -= (self.model.gridSize.floatValue -1)*kInterSpacing; // Minus the total size taken by separators
+    CGFloat sz = width/self.model.gridSize.floatValue; // Size available for each individual cell
 
     return CGSizeMake(sz, sz);
 }

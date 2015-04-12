@@ -10,25 +10,34 @@
 
 @interface BoardModel ()
 
-@property NSInteger level;
-
 @end
+
 
 @implementation BoardModel
 
-- (id)initWithComplexityLevel:(TComplexityLevel)level
+#pragma mark MTMode
+
+- (id)initWithComplexityLevel:(NSNumber *)level
 {
     self = [super init];
     if (self) {
         
         self.level = level;
-        self.gridSize = 8;
-        self.mineLocations = [self.class getNRandomNumbers:self.level lessThan:self.gridSize*self.gridSize];
+        self.gridSize = @8;
+        self.mineLocations = [self.class getNRandomNumbers:self.level.integerValue lessThan:self.gridSize.floatValue*self.gridSize.floatValue];
         self.selectedBlocks = [[NSMutableDictionary alloc] init];
         self.indicesToSelect = [[NSMutableArray alloc] init];
     }
     
     return self;
+}
+
+- (void)setGameEndBlock:(void (^)(BOOL mineStepped))block {
+    gameEndBlock = [block copy];
+}
+
+- (void)setReloadBlock:(void (^)())block {
+    reloadBlock = [block copy];
 }
 
 #pragma mark Helpers

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Mantle/Mantle.h>
 
 typedef NS_ENUM(NSUInteger, TComplexityLevel) {
     TComplexityLevel_Simple = 5,
@@ -14,16 +15,23 @@ typedef NS_ENUM(NSUInteger, TComplexityLevel) {
     TComplexityLevel_Difficult = 15 // For now directly corresponds to the number of mines
 };
 
-@interface BoardModel : NSObject
+@interface BoardModel : MTLModel <MTLJSONSerializing>
+{
+    void (^gameEndBlock)(BOOL mineStepped);
+    void (^reloadBlock)();
+    
+}
 
-- (id)initWithComplexityLevel:(TComplexityLevel)level;
+- (id)initWithComplexityLevel:(NSNumber *)level;
 
-@property CGFloat gridSize;
+@property NSNumber *gridSize;
+@property NSNumber *level;
 @property NSMutableDictionary *selectedBlocks;
 @property NSArray *mineLocations;
 @property NSMutableArray *indicesToSelect;
-@property (nonatomic, copy) void (^gameEndBlock)(BOOL mineStepped);
-@property (nonatomic, copy) void (^reloadBlock)();
-@property BOOL cheatModeEnabled;
+@property NSNumber *cheatModeEnabled;
+
+- (void)setGameEndBlock:(void (^)(BOOL mineStepped))block;
+- (void)setReloadBlock:(void (^)())block;
 
 @end

@@ -14,5 +14,6 @@
 - (BOOL)isBlockSelected:(NSInteger)index;
 - (BOOL)minePresentAtIndex:(NSInteger)index;
 - (NSInteger)adjescentMinesCountForBlockAtIndex:(NSInteger)index;
+- (NSError *)saveAtURL:(NSURL *)URL;
 
 @end
