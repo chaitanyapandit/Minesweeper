@@ -99,35 +99,38 @@
             cell.label.text = [count stringValue];
     }
     
-    cell.label.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
-
     return cell;
 }
 
 #pragma mark UICollectionView Delegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger adjescentCount = [self countOfMinesAdjescentToIndex:indexPath.row];
     
-    NSLog(@"%@", [NSString stringWithFormat:@"adjescentCount for index %ld is %ld", (long)indexPath.row, (long)adjescentCount]);
-
-    [self.selectedPaths setObject:[NSNumber numberWithInteger:adjescentCount] forKey:[NSNumber numberWithInteger:indexPath.row]];
-    [self.collectionView reloadData];
-    [self.adjescentIndicesToSelect removeObjectsInArray:self.selectedPaths.allKeys];
-
-    if (!adjescentCount)
+    if ([self.mineLocations containsObject:[NSNumber numberWithInteger:indexPath.row]])
     {
-        if (!self.adjescentIndicesToSelect)
-            self.adjescentIndicesToSelect = [[NSMutableArray alloc] init];
-        NSArray *adjescentIndices = [self adjescentIndicesAtIndex:indexPath.row];
-        [self.adjescentIndicesToSelect removeObjectsInArray:adjescentIndices];
-        [self.adjescentIndicesToSelect addObjectsFromArray:adjescentIndices];
-        [self.adjescentIndicesToSelect removeObjectsInArray:self.selectedPaths.allKeys];
+        
     }
-    
-    if (self.adjescentIndicesToSelect.count)
+    else
     {
-        [self collectionView:collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForRow:[self.adjescentIndicesToSelect.firstObject integerValue] inSection:indexPath.section]];
+        NSInteger adjescentCount = [self countOfMinesAdjescentToIndex:indexPath.row];
+        [self.selectedPaths setObject:[NSNumber numberWithInteger:adjescentCount] forKey:[NSNumber numberWithInteger:indexPath.row]];
+        [self.collectionView reloadData];
+        [self.adjescentIndicesToSelect removeObjectsInArray:self.selectedPaths.allKeys];
+        
+        if (!adjescentCount)
+        {
+            if (!self.adjescentIndicesToSelect)
+                self.adjescentIndicesToSelect = [[NSMutableArray alloc] init];
+            NSArray *adjescentIndices = [self adjescentIndicesAtIndex:indexPath.row];
+            [self.adjescentIndicesToSelect removeObjectsInArray:adjescentIndices];
+            [self.adjescentIndicesToSelect addObjectsFromArray:adjescentIndices];
+            [self.adjescentIndicesToSelect removeObjectsInArray:self.selectedPaths.allKeys];
+        }
+        
+        if (self.adjescentIndicesToSelect.count)
+        {
+            [self collectionView:collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForRow:[self.adjescentIndicesToSelect.firstObject integerValue] inSection:indexPath.section]];
+        }
     }
 }
 
