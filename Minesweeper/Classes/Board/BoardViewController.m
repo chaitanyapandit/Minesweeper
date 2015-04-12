@@ -57,7 +57,7 @@
     // Initialize the model
     self.model = [[BoardModel alloc] initWithComplexityLevel:TComplexityLevel_Intermediate];
     self.model.cheatModeEnabled = YES;
-    [self.model setMineDetectedBlock:^{
+    [self.model setGameEndBlock:^(BOOL mineStepped) {
         
     }];
     
@@ -91,7 +91,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BoardCell *cell = (BoardCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
-    
+    cell.label.text = nil;
+
     if (self.model.cheatModeEnabled && [self.model minePresentAtIndex:indexPath.row])
     {
         cell.backgroundColor = [UIColor redColor];
@@ -100,7 +101,8 @@
     {
         cell.backgroundColor = [UIColor yellowColor];
         NSInteger count = [self.model adjescentMinesCountForBlockAtIndex:indexPath.row];
-        cell.label.text = [NSString stringWithFormat:@"%ld", (long)count];
+        if (count)
+            cell.label.text = [NSString stringWithFormat:@"%ld", (long)count];
     }
     else
         cell.backgroundColor = [UIColor greenColor];

@@ -14,8 +14,8 @@
     
     if ([self.mineLocations containsObject:[NSNumber numberWithInteger:index]])
     {
-        if (self.mineDetectedBlock)
-            self.mineDetectedBlock();
+        if (self.gameEndBlock)
+            self.gameEndBlock(YES);
     }
     else
     {
@@ -46,7 +46,7 @@
 }
 
 - (BOOL)isBlockSelected:(NSInteger)index {
-   return [[self.selectedBlocks objectForKey:[NSNumber numberWithInteger:index]] boolValue];
+    return [self.selectedBlocks objectForKey:[NSNumber numberWithInteger:index]] ? YES : NO;
 }
 
 - (BOOL)minePresentAtIndex:(NSInteger)index {

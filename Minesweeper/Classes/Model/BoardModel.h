@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, TComplexityLevel) {
 @property NSMutableDictionary *selectedBlocks;
 @property NSArray *mineLocations;
 @property NSMutableArray *indicesToSelect;
-@property (nonatomic, copy) void (^mineDetectedBlock)();
+@property (nonatomic, copy) void (^gameEndBlock)(BOOL mineStepped);
 @property (nonatomic, copy) void (^reloadBlock)();
 @property BOOL cheatModeEnabled;
 
