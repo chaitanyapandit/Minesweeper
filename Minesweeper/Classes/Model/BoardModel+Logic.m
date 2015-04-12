@@ -71,6 +71,16 @@
         reloadBlock();
 }
 
+- (BOOL)finished {
+
+    BOOL retVal = NO;
+    
+    if (self.selectedBlocks.count + self.mineLocations.count == self.gridSize.integerValue*self.gridSize.integerValue)
+        retVal = YES;
+    
+    return retVal;
+}
+
 #pragma mark Helpers
 
 - (NSArray *)adjescentIndicesInSameAtIndex:(NSInteger)index {

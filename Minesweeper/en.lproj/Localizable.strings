@@ -8,8 +8,14 @@
 
 "ok" = "OK";
 "cancel" = "Cancel";
+"restart" = "Restart";
 "game.ended.title" = "Gamed Ended";
 "game.ended.message" = "You hit a mine!";
+
+"validate.success.title" = "You Win!";
+"validate.success.message" = "Congratulations! You've successfully completed the game";
+"validate.failure.title" = "Not Yet!";
+"validate.failure.message" = "You haven't tapped all blocks yet";
 
 "new.game" = "New Game";
 "validate" = "Validate";

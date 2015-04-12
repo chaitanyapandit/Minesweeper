@@ -15,6 +15,7 @@
 - (BOOL)minePresentAtIndex:(NSInteger)index;
 - (NSInteger)adjescentMinesCountForBlockAtIndex:(NSInteger)index;
 - (NSError *)saveAtURL:(NSURL *)URL;
+- (BOOL)finished;
 - (void)restart;
 
 @end

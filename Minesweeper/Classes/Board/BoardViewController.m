@@ -122,9 +122,7 @@
         
         if (mineStepped)
         {
-            [UIAlertView showWithTitle:NSLocalizedString(@"game.ended.title", @"") message:NSLocalizedString(@"game.ended.message", @"") cancelButtonTitle:nil otherButtonTitles:@[NSLocalizedString(@"ok", @"")] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                
-            }];
+            [UIAlertView showWithTitle:NSLocalizedString(@"game.ended.title", @"") message:NSLocalizedString(@"game.ended.message", @"") cancelButtonTitle:NSLocalizedString(@"ok", @"") otherButtonTitles:nil tapBlock:nil];
         }
     }];
     
@@ -183,7 +181,21 @@
 }
 
 - (void)validateAction:(UIButton *)button {
-    
+    BOOL success = [self.model finished];
+    if (success)
+    {
+        [UIAlertView showWithTitle:NSLocalizedString(@"validate.success.title", @"") message:NSLocalizedString(@"validate.success.message", @"") cancelButtonTitle:NSLocalizedString(@"ok", @"") otherButtonTitles:@[NSLocalizedString(@"restart", @"")] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            
+            if (buttonIndex != alertView.cancelButtonIndex)
+            {
+                [self newGameAction:nil];
+            }
+        }];
+    }
+    else
+    {
+        [UIAlertView showWithTitle:NSLocalizedString(@"validate.failure.title", @"") message:NSLocalizedString(@"validate.failure.message", @"") cancelButtonTitle:NSLocalizedString(@"ok", @"") otherButtonTitles:nil tapBlock:nil];
+    }
 }
 
 - (void)cheatAction:(UIButton *)button {
