@@ -85,6 +85,65 @@
 
 #pragma mark UICollectionView Delegate
 
+- (NSArray *)adjescentCellsForCellAtIndexPath:(NSIndexPath *)indexPath {
+
+    NSMutableArray *retVal = [[NSMutableArray alloc] init];
+    NSInteger row = indexPath.row;
+    BoardCell *cell = nil;
+    
+    // Previous
+    row = indexPath.row -1;
+    cell = (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    if (cell)
+        [retVal addObject:cell];
+    // Next
+    row = indexPath.row +1;
+    cell = (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    if (cell)
+        [retVal addObject:cell];
+    // Top
+    row = indexPath.row - kGridCount;
+    cell = (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    if (cell)
+        [retVal addObject:cell];
+    // Top-1
+    row = indexPath.row - kGridCount-1;
+    cell = (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    if (cell)
+        [retVal addObject:cell];
+    // Top+1
+    row = indexPath.row - kGridCount+1;
+    cell = (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    if (cell)
+        [retVal addObject:cell];
+    // Bottom
+    row = indexPath.row + kGridCount;
+    cell = (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    if (cell)
+        [retVal addObject:cell];
+    // Bottom-1
+    row = indexPath.row + kGridCount-1;
+    cell = (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    if (cell)
+        [retVal addObject:cell];
+    // Bottom+1
+    row = indexPath.row + kGridCount+1;
+    cell = (BoardCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+    if (cell)
+        [retVal addObject:cell];
+
+    
+    return retVal;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSArray *cells = [self adjescentCellsForCellAtIndexPath:indexPath];
+    for (BoardCell *cell in cells)
+    {
+        cell.backgroundColor = [UIColor yellowColor];
+    }
+}
 
 #pragma mark UICollectionView UICollectionViewDelegateFlowLayout
 
